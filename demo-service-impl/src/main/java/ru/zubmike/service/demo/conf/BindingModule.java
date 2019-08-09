@@ -9,12 +9,16 @@ import ru.zubmike.service.demo.api.ZoneResource;
 import ru.zubmike.service.demo.dao.PlanetarySystemDao;
 import ru.zubmike.service.demo.dao.StarshipDao;
 import ru.zubmike.service.demo.dao.ZoneDao;
+import ru.zubmike.service.demo.dao.ZoneSpaceDao;
 import ru.zubmike.service.demo.dao.db.PlanetarySystemDaoImpl;
 import ru.zubmike.service.demo.dao.db.StarshipDaoImpl;
 import ru.zubmike.service.demo.dao.db.ZoneDaoImpl;
+import ru.zubmike.service.demo.dao.db.ZoneSpaceDaoImpl;
 import ru.zubmike.service.demo.logic.DictionaryLogic;
 import ru.zubmike.service.demo.logic.StarshipLogic;
 import ru.zubmike.service.demo.logic.ZoneLogic;
+import ru.zubmike.service.managers.DbTransactionManager;
+import ru.zubmike.service.managers.TransactionManager;
 
 import javax.inject.Singleton;
 
@@ -36,8 +40,11 @@ public class BindingModule extends AbstractModule {
 		bind(SessionFactory.class).toInstance(sessionFactory);
 
 		bind(ZoneDao.class).to(ZoneDaoImpl.class).in(Singleton.class);
+		bind(ZoneSpaceDao.class).to(ZoneSpaceDaoImpl.class).in(Singleton.class);
 		bind(PlanetarySystemDao.class).to(PlanetarySystemDaoImpl.class).in(Singleton.class);
 		bind(StarshipDao.class).to(StarshipDaoImpl.class).in(Singleton.class);
+
+		bind(TransactionManager.class).toProvider(() -> new DbTransactionManager(sessionFactory)).in(Singleton.class);
 
 		bind(ZoneLogic.class).in(Singleton.class);
 		bind(StarshipLogic.class).in(Singleton.class);

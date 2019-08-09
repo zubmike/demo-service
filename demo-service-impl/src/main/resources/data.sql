@@ -1,4 +1,9 @@
 insert into
+  zones
+values
+(1, 'Zone A', 16);
+
+insert into
   planetary_systems
 values
   (1, 'Solar system', 'SOL');

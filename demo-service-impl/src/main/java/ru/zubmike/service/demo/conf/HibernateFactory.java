@@ -8,11 +8,13 @@ import ru.zubmike.service.conf.DataBaseProperties;
 import ru.zubmike.service.demo.types.PlanetarySystem;
 import ru.zubmike.service.demo.types.Starship;
 import ru.zubmike.service.demo.types.Zone;
+import ru.zubmike.service.demo.types.ZoneSpace;
 
 public class HibernateFactory {
 
 	private static final Class<?>[] ENTITIES = new Class[] {
 			Zone.class,
+			ZoneSpace.class,
 			Starship.class,
 			PlanetarySystem.class
 	};

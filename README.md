@@ -6,7 +6,7 @@ Simple REST API service for managing parking spaces on space station :)
 
 **demo-service-api** - DTO library
 
-**demo-service-impl** - Basic service implementation by Jersey/Guice
+**demo-service-impl** - Basic service implementation by Jetty/Jersey/Guice
 
 **demo-service-spring-impl** - Service implementation by Spring (_planning_)
 
@@ -38,6 +38,29 @@ _In developing..._
         "id": 1,  
         "name": "Zone A",
         "maxSize": 16
+    }
+]
+```
+---
+- Add starship to parking zone
+
+`POST` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
+
+---
+- Delete starship from parking zone
+
+`DELETE` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
+
+---
+- Get all starships in parking zone
+
+`GET` http://localhost:8080/zones/{id}/starships
+```json
+[
+    {
+        "id": 1,  
+        "number": "ZSOL-123456",
+        "parkDate": "2019-08-09T12:34:56"
     }
 ]
 ```

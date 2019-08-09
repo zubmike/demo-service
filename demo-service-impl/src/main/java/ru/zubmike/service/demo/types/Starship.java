@@ -1,10 +1,14 @@
 package ru.zubmike.service.demo.types;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "starships")
+@Cache(region = "zone", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Starship {
 
 	@Id

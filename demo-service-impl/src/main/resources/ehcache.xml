@@ -13,6 +13,15 @@
         </resources>
     </cache>
 
+    <cache alias="starship">
+        <expiry>
+            <ttl unit="hours">2</ttl>
+        </expiry>
+        <resources>
+            <heap>128</heap>
+        </resources>
+    </cache>
+
     <cache alias="planetarySystems">
         <expiry>
             <ttl unit="hours">2</ttl>
