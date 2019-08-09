@@ -1,0 +1,11 @@
+{
+  "dataBase": {
+    "url": "jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:ddl.sql'",
+    "driverClass": "org.h2.Driver",
+    "dialect": "org.hibernate.dialect.H2Dialect",
+    "properties": {
+      "hibernate.show_sql": true,
+      "hibernate.format_sql": true
+    }
+  }
+}
