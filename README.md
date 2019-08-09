@@ -18,21 +18,86 @@ Parking divided into named zones which have a limited number of parking spaces. 
 _In developing..._
 
 #### Parking zone resources:
-- `POST` http://localhost:8080/zones
+
+- Create new zone
+
+`POST` http://localhost:8080/zones
 ```json
 {
-  "name": "Zone A",
-  "maxSize": 16
+    "name": "Zone A",
+    "maxSize": 16
 }
 ```
+---
+- Get all zones
 
-- `GET` http://localhost:8080/zones
+`GET` http://localhost:8080/zones
 ```json
 [
     {
-      "id": 1,  
-      "name": "Zone A",
-      "maxSize": 16
+        "id": 1,  
+        "name": "Zone A",
+        "maxSize": 16
+    }
+]
+```
+
+
+#### Starships resources:
+- Create new starship 
+
+`POST` http://localhost:8080/starships
+```json
+{
+    "number": "SOL-123456"
+}
+```
+---
+- Get starship by ID
+ 
+`GET` http://localhost:8080/starships/{id}
+```json
+{
+    "id": 1,    
+    "number": "SOL-123456",
+    "planetarySystemId": 1,
+    "planetarySystemName": "Solar System",
+    "createDate": "2019-08-09T12:34:56",
+    "timeCount": 0
+}
+```
+---
+- Get starship by number
+ 
+`GET` http://localhost:8080/starships/number/{number}
+```json
+{
+    "id": 1,    
+    "number": "SOL-123456",
+    "planetarySystemId": 1,
+    "planetarySystemName": "Solar System",
+    "createDate": "2019-08-08T12:34:56",
+    "timeCount": 0
+}
+```
+
+#### Dictionary resources:
+- Get all planetary systems 
+
+`GET` http://localhost:8080/dictionaries/planetary-systems
+```json
+[
+    {
+        "id": 1,
+        "name": "Solar system"
+    },
+    {
+        "id": 2,
+        "name": "Alpha Centauri"
+    },
+    {
+        "id": 3,
+        "name": "UX Tau"
     }
 ]
 ```
