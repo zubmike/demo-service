@@ -6,13 +6,13 @@ import ru.zubmike.service.demo.api.types.ZoneInfo;
 import ru.zubmike.service.demo.logic.ZoneLogic;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.util.List;
 
 @Path("/zones")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class ZoneResource extends BasicResource {
 
 	private final ZoneLogic zoneLogic;

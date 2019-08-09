@@ -5,12 +5,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import ru.zubmike.service.conf.DataBaseProperties;
+import ru.zubmike.service.demo.types.PlanetarySystem;
+import ru.zubmike.service.demo.types.Starship;
 import ru.zubmike.service.demo.types.Zone;
 
 public class HibernateFactory {
 
 	private static final Class<?>[] ENTITIES = new Class[] {
-			Zone.class
+			Zone.class,
+			Starship.class,
+			PlanetarySystem.class
 	};
 
 	public static SessionFactory createSessionFactory(DataBaseProperties dataBaseProperties) {

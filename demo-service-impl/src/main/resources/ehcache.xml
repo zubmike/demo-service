@@ -13,4 +13,13 @@
         </resources>
     </cache>
 
+    <cache alias="planetarySystems">
+        <expiry>
+            <ttl unit="hours">2</ttl>
+        </expiry>
+        <resources>
+            <heap>64</heap>
+        </resources>
+    </cache>
+
 </config>
