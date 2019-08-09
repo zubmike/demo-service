@@ -1,6 +1,5 @@
 # Demo project - Space Station Parking Service.
 
-_In developing..._
 
 Simple REST API service for managing parking spaces on space station :)
 
@@ -19,111 +18,154 @@ _In developing..._
 
 #### Parking zone resources:
 
-- Create new zone
+<details>
+  <summary>Create new zone</summary>
 
-`POST` http://localhost:8080/zones
-```json
-{
-    "name": "Zone A",
-    "maxSize": 16
-}
-```
----
-- Get all zones
+  `POST` http://localhost:8080/zones
 
-`GET` http://localhost:8080/zones
-```json
-[
-    {
-        "id": 1,  
-        "name": "Zone A",
-        "maxSize": 16
-    }
-]
-```
----
-- Add starship to parking zone
+  ```json
+  {
+      "name": "Zone A",
+      "maxSize": 16
+  }
+  ```
+  ---
+</details>
 
-`POST` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
+<details>
+  <summary>Get all zones</summary>
 
----
-- Delete starship from parking zone
+  `GET` http://localhost:8080/zones
+  
+  ```json
+  [
+      {
+          "id": 1,  
+          "name": "Zone A",
+          "maxSize": 16
+      }
+  ]
+  ```
+  ---
+</details>
 
-`DELETE` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
 
----
-- Get all starships in parking zone
+<details>
+  <summary>Add starship to parking zone</summary>
+  
+  `POST` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
+  
+  ---
+</details>
 
-`GET` http://localhost:8080/zones/{id}/starships
-```json
-[
-    {
-        "id": 1,  
-        "number": "ZSOL-123456",
-        "parkDate": "2019-08-09T12:34:56"
-    }
-]
-```
 
+<details>
+  <summary>Delete starship from parking zone</summary>
+  
+  `DELETE` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
+
+   ---
+</details>
+
+
+<details>
+  <summary>Get all starships in parking zone</summary>
+
+  `GET` http://localhost:8080/zones/{id}/starships
+  
+  ```json
+  [
+      {
+          "id": 1,  
+          "number": "ZSOL-123456",
+          "parkDate": "2019-08-09T12:34:56"
+      }
+  ]
+  ```
+  ---
+</details>
 
 #### Starships resources:
-- Create new starship 
 
-`POST` http://localhost:8080/starships
-```json
-{
-    "number": "SOL-123456"
-}
-```
----
-- Get starship by ID
- 
-`GET` http://localhost:8080/starships/{id}
-```json
-{
-    "id": 1,    
-    "number": "SOL-123456",
-    "planetarySystemId": 1,
-    "planetarySystemName": "Solar System",
-    "createDate": "2019-08-09T12:34:56",
-    "timeCount": 0
-}
-```
----
-- Get starship by number
- 
-`GET` http://localhost:8080/starships/number/{number}
-```json
-{
-    "id": 1,    
-    "number": "SOL-123456",
-    "planetarySystemId": 1,
-    "planetarySystemName": "Solar System",
-    "createDate": "2019-08-08T12:34:56",
-    "timeCount": 0
-}
-```
+<details>
+  <summary>Create new starship</summary> 
+
+  `POST` http://localhost:8080/starships
+  ```json
+  {
+      "number": "SOL-123456"
+  }
+  ```
+  ---
+</details>
+
+
+<details>
+  <summary>Get starship by ID</summary> 
+
+  `GET` http://localhost:8080/starships/{id}
+  
+  ```json
+  {
+      "id": 1,    
+      "number": "SOL-123456",
+      "planetarySystemId": 1,
+      "planetarySystemName": "Solar System",
+      "createDate": "2019-08-09T12:34:56",
+      "timeCount": 0
+  }
+  ```
+  ---
+</details>
+
+
+
+<details>
+  <summary>Get starship by number</summary> 
+
+  `GET` http://localhost:8080/starships/number/{number}
+  
+  ```json
+  {
+      "id": 1,    
+      "number": "SOL-123456",
+      "planetarySystemId": 1,
+      "planetarySystemName": "Solar System",
+      "createDate": "2019-08-09T12:34:56",
+      "timeCount": 0
+  }
+  ```
+  ---
+</details>
+
+
 
 #### Dictionary resources:
-- Get all planetary systems 
 
-`GET` http://localhost:8080/dictionaries/planetary-systems
-```json
-[
-    {
-        "id": 1,
-        "name": "Solar system"
-    },
-    {
-        "id": 2,
-        "name": "Alpha Centauri"
-    },
-    {
-        "id": 3,
-        "name": "UX Tau"
-    }
-]
-```
+<details>
+  <summary>Get all planetary systems</summary>
+  
+   `GET` http://localhost:8080/dictionaries/planetary-systems
+   
+   ```json
+   [
+       {
+           "id": 1,
+           "name": "Solar system"
+       },
+       {
+           "id": 2,
+           "name": "Alpha Centauri"
+       },
+       {
+           "id": 3,
+           "name": "UX Tau"
+       }
+   ]
+   ```
+   ---
+</details>
+
 
 ## Build
 
