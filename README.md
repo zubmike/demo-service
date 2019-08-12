@@ -29,7 +29,6 @@ _In developing..._
       "maxSize": 16
   }
   ```
-  ---
 </details>
 
 <details>
@@ -46,7 +45,6 @@ _In developing..._
       }
   ]
   ```
-  ---
 </details>
 
 
@@ -55,7 +53,6 @@ _In developing..._
   
   `POST` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
   
-  ---
 </details>
 
 
@@ -64,7 +61,6 @@ _In developing..._
   
   `DELETE` http://localhost:8080/zones/{zone-id}/starships/{starship-id}
 
-   ---
 </details>
 
 
@@ -82,7 +78,6 @@ _In developing..._
       }
   ]
   ```
-  ---
 </details>
 
 #### Starships resources:
@@ -96,7 +91,6 @@ _In developing..._
       "number": "SOL-123456"
   }
   ```
-  ---
 </details>
 
 
@@ -115,7 +109,6 @@ _In developing..._
       "timeCount": 0
   }
   ```
-  ---
 </details>
 
 
@@ -135,7 +128,6 @@ _In developing..._
       "timeCount": 0
   }
   ```
-  ---
 </details>
 
 
@@ -163,7 +155,6 @@ _In developing..._
        }
    ]
    ```
-   ---
 </details>
 
 
