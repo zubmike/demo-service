@@ -25,6 +25,8 @@
         <hibernate.version>5.4.4.Final</hibernate.version>
         <ehcache.version>3.5.2</ehcache.version>
         <h2.version>1.4.199</h2.version>
+        <junit.version>4.12</junit.version>
+        <mockito-core.version>3.0.0</mockito-core.version>
     </properties>
 
     <dependencies>
@@ -114,6 +116,28 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.bytebuddy</groupId>
+                    <artifactId>byte-buddy</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

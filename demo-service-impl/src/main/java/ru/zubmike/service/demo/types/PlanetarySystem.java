@@ -20,6 +20,14 @@ public class PlanetarySystem extends BasicEntityDictItem {
 	@Column(name = "code")
 	private String code;
 
+	public PlanetarySystem() {
+	}
+
+	public PlanetarySystem(int id, String name, String code) {
+		super(id, name);
+		this.code = code;
+	}
+
 	public String getCode() {
 		return code;
 	}
