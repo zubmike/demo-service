@@ -94,11 +94,11 @@ public class ZoneLogic {
 
 	private void checkFreeZoneSpace(Zone zone, Starship starship) {
 		zoneSpaceDao.getByStarship(starship.getId()).ifPresent(item -> {
-			throw new java.security.InvalidParameterException("Starship is already parked");
+			throw new InvalidParameterException("Starship is already parked");
 		});
 		int usedSize = zoneSpaceDao.getAllByZone(zone.getId()).size();
 		if (usedSize >= zone.getMaxSize()) {
-			throw new java.security.InvalidParameterException("Not found empty space");
+			throw new InvalidParameterException("Not found empty space");
 		}
 	}
 
@@ -119,7 +119,7 @@ public class ZoneLogic {
 
 	private ZoneSpace getZoneSpace(Zone zone, Starship starship) {
 		return zoneSpaceDao.getUsedSpace(zone.getId(), starship.getId())
-				.orElseThrow(() -> new java.security.InvalidParameterException("Starship is not parked in the zone"));
+				.orElseThrow(() -> new InvalidParameterException("Starship is not parked in the zone"));
 	}
 
 	public List<ZoneStarshipInfo> getZoneStarships(int zoneId) {
