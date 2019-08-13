@@ -5,16 +5,14 @@ Simple REST API service for managing parking spaces on space station :)
 
 **demo-service-api** - DTO library
 
-**demo-service-impl** - Basic service implementation by Jetty/Jersey/Guice
+**demo-service-impl** - Basic service implementation by Jetty/Jersey/Guice/Hibernate
 
-**demo-service-spring-impl** - Service implementation by Spring (_planning_)
+**demo-service-spring-impl** - Service implementation by Spring/Hibernate
 
 Parking divided into named zones which have a limited number of parking spaces. Spaceships can arrive from different planetary systems, but parking is available for friendly planetary systems. Each spaceship must have a unique number containing the planetary system code. It is also necessary to determine how many times the ship stopped at the station.
 
 
 ## API
-
-_In developing..._
 
 #### Parking zone resources:
 
@@ -160,6 +158,57 @@ _In developing..._
 
 ## Build
 
-Project include my personal libraries: 
- - https://github.com/zubmike/common-core
- - https://github.com/zubmike/common-service
+<details>
+  <summary>demo-service-impl</summary>
+
+  Building by Maven with including libraries: 
+   - https://github.com/zubmike/common-core
+   - https://github.com/zubmike/common-service
+   - https://github.com/zubmike/demo-service-api
+  
+  For each libraries execute command into directory:
+  ```
+  mvn clean install
+  ```
+  
+  For building service execute command into project directory:
+  ```
+  mvn clean package
+  ```
+  
+  Put file confing.yml into directory with built demo-service.jar
+
+  Start service with command:
+  
+  ```
+  java -jar demo-service.jar
+  ```
+    
+</details>
+
+<details>
+  <summary>demo-service-spring-impl</summary>
+
+  Building by Maven with including libraries:
+  - https://github.com/zubmike/common-core
+  - https://github.com/zubmike/demo-service-api
+
+  For each libraries execute command into directory:
+  ```
+  mvn clean install
+  ```
+    
+  For building service execute command into project directory:
+  ```
+  mvn clean package
+  ```
+    
+  Put file application.yml into directory with built demo-service-spring.jar
+    
+  Start service with command:
+  
+  ```
+  java -jar demo-service-spring.jar
+   ```
+
+</details>
