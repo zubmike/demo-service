@@ -3,7 +3,6 @@ package ru.zubmike.service.demo.conf;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
 import ru.zubmike.service.conf.DataBaseProperties;
 import ru.zubmike.service.demo.types.PlanetarySystem;
 import ru.zubmike.service.demo.types.Starship;
@@ -37,24 +36,11 @@ public class HibernateFactory {
 		if (dataBaseProperties.getPassword() != null) {
 			configuration.setProperty("hibernate.connection.password", dataBaseProperties.getPassword());
 		}
-
-		setDefaultProperties(configuration);
 		dataBaseProperties.getProperties().forEach(configuration::setProperty);
-
 		for (Class<?> entity : entities) {
 			configuration.addAnnotatedClass(entity);
 		}
-
 		return configuration;
 	}
 
-	private static void setDefaultProperties(Configuration configuration) {
-		configuration.setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "org.hibernate.context.internal.ThreadLocalSessionContext");
-		configuration.setProperty(Environment.USE_QUERY_CACHE, "true");
-		configuration.setProperty(Environment.USE_SECOND_LEVEL_CACHE, "true");
-		configuration.setProperty(Environment.CACHE_REGION_FACTORY, "jcache");
-		configuration.setProperty("hibernate.javax.cache.provider", "org.ehcache.jsr107.EhcacheCachingProvider");
-		configuration.setProperty("hibernate.javax.cache.uri", HibernateFactory.class.getResource("/ehcache.xml").toString());
-		configuration.setProperty("hibernate.javax.cache.missing_cache_strategy", "create");
-	}
 }
