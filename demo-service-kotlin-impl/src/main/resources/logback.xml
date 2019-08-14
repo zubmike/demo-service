@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+  <property name="loggingPattern" value="%-5level %d{yyyy-MM-dd HH:mm:ss,Europe/Moscow} %logger.%method\\(%file:%line\\): %message%n" />
+  <property name="requestPattern" value="%d{yyyy-MM-dd HH:mm:ss,Europe/Moscow}: %message%n" />
+  <property name="loggingHome" value="logs/" />
+  <property name="appName" value="demo-service" />
+  <property name="rollingPattern" value="%d{yyyy-MM-dd,Europe/Moscow}" />
+  <property name="maxHistory" value="30" />
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <encoder>
+      <pattern>${loggingPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="error-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <file>${loggingHome}/${appName}-error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${loggingHome}/${appName}-error.${rollingPattern}.log</fileNamePattern>
+      <maxHistory>${maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${loggingPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="warning-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+    <file>${loggingHome}/${appName}-warning.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${loggingHome}/${appName}-warning.${rollingPattern}.log</fileNamePattern>
+      <maxHistory>${maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${loggingPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="debug-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+    <file>${loggingHome}/${appName}-debug.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${loggingHome}/${appName}-debug.${rollingPattern}.log</fileNamePattern>
+      <maxHistory>${maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${loggingPattern}</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="info-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <file>${loggingHome}/${appName}-info.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${loggingHome}/${appName}-info.${rollingPattern}.log</fileNamePattern>
+      <maxHistory>${maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${loggingPattern}</pattern>
+    </encoder>
+  </appender>
+
+  <logger level="ALL" name="ru.zubmike.service.demo" additivity="false">
+    <appender-ref ref="console" />
+	<appender-ref ref="error-file" />
+    <appender-ref ref="warning-file" />
+    <appender-ref ref="debug-file" />
+	<appender-ref ref="info-file" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+    <appender-ref ref="error-file" />
+    <appender-ref ref="warning-file" />
+    <appender-ref ref="debug-file" />
+    <appender-ref ref="info-file" />
+  </root>
+  
+</configuration>

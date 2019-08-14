@@ -9,6 +9,8 @@ Simple REST API service for managing parking spaces on space station :)
 
 **demo-service-spring-impl** - Service implementation by Spring/Hibernate
 
+**demo-service-kotlin-impl** - Service implementation by Kotlin with Ktor/Koin/Hibernate
+
 Parking divided into named zones which have a limited number of parking spaces. Spaceships can arrive from different planetary systems, but parking is available for friendly planetary systems. Each spaceship must have a unique number containing the planetary system code. It is also necessary to determine how many times the ship stopped at the station.
 
 
@@ -176,7 +178,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
   mvn clean package
   ```
   
-  Put file confing.yml into directory with built demo-service.jar
+  Put file config.yml into directory with built demo-service.jar
 
   Start service with command:
   
@@ -211,4 +213,32 @@ Parking divided into named zones which have a limited number of parking spaces. 
   java -jar demo-service-spring.jar
    ```
 
+</details>
+
+<details>
+  <summary>demo-service-kotlin-impl</summary>
+
+  Building by Gradle with including libraries (Maven): 
+   - https://github.com/zubmike/common-core
+   - https://github.com/zubmike/common-service
+   - https://github.com/zubmike/demo-service-api
+  
+  For each libraries execute command into directory:
+  ```
+  mvn clean install
+  ```
+  
+  For building service execute command into project directory:
+  ```
+  gradle clean build
+  ```
+  
+  Put file config.yml into directory with built demo-service-kotlin-X.jar
+
+  Start service with command:
+  
+  ```
+  java -jar demo-service-kotlin-X.jar
+  ```
+    
 </details>
