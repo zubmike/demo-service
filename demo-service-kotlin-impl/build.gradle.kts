@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "ru.zubmike"
+group = "com.github.zubmike"
 version = "1.0"
 
 plugins {
@@ -10,7 +10,7 @@ plugins {
 }
 
 application {
-    mainClassName = "ru.zubmike.service.demo.MainKt"
+    mainClassName = "com.github.zubmike.service.demo.MainKt"
 }
 
 repositories {
@@ -32,8 +32,8 @@ val mockitoCoreVersion = "3.0.0"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    compile("ru.zubmike:common-service:$commonServiceVersion")
-    compile("ru.zubmike:demo-service-api:$demoServiceApiVersion")
+    compile("com.github.zubmike:common-service:$commonServiceVersion")
+    compile("com.github.zubmike:demo-service-api:$demoServiceApiVersion")
     compile("org.koin:koin-ktor:$koinVersion")
     compile("io.ktor:ktor-server-netty:$ktorVersion")
     compile("io.ktor:ktor-jackson:$ktorVersion")

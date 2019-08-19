@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.evotor</groupId>
+    <groupId>com.github.zubmike</groupId>
     <artifactId>demo-service-spring-impl</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -33,7 +33,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>ru.zubmike</groupId>
+            <groupId>com.github.zubmike</groupId>
             <artifactId>demo-service-api</artifactId>
             <version>${demo-service-api.version}</version>
         </dependency>
@@ -97,7 +97,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>ru.zubmike.service.demo.ServiceApplication</mainClass>
+                    <mainClass>com.github.zubmike.service.demo.ServiceApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>

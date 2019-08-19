@@ -73,7 +73,7 @@
     </encoder>
   </appender>
 
-  <logger level="ALL" name="ru.zubmike.service.demo" additivity="false">
+  <logger level="ALL" name="com.github.zubmike.service" additivity="false">
     <appender-ref ref="console" />
 	<appender-ref ref="error-file" />
     <appender-ref ref="warning-file" />

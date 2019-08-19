@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.zubmike</groupId>
+    <groupId>com.github.zubmike</groupId>
     <artifactId>demo-service-impl</artifactId>
     <version>1.1</version>
 
@@ -33,13 +33,14 @@
 
         <!-- Common Service -->
         <dependency>
-            <groupId>ru.zubmike</groupId>
+            <groupId>com.github.zubmike</groupId>
             <artifactId>common-service</artifactId>
             <version>${common-service.version}</version>
         </dependency>
 
+        <!-- API Service -->
         <dependency>
-            <groupId>ru.zubmike</groupId>
+            <groupId>com.github.zubmike</groupId>
             <artifactId>demo-service-api</artifactId>
             <version>${demo-service-api.version}</version>
         </dependency>
@@ -220,7 +221,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ru.zubmike.service.demo.ServiceApp</mainClass>
+                                    <mainClass>com.github.zubmike.service.demo.ServiceApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
