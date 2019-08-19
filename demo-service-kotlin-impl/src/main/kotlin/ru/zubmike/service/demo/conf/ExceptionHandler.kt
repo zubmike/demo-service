@@ -19,21 +19,24 @@ object ExceptionHandler {
 }
 
 fun StatusPages.Configuration.handleException() {
-    exception<Throwable> { cause ->
-        when (cause) {
-            is DuplicateException -> call.respond(HttpStatusCode.BadRequest, cause.message?: "Duplicate")
-            is InvalidParameterException -> call.respond(HttpStatusCode.BadRequest, cause.message?: "Invalid parameter")
-            is AuthException -> call.respond(HttpStatusCode.Unauthorized, cause.message?: "Unauthorized")
-            is NotFoundException -> call.respond(HttpStatusCode.NotFound, cause.message?:"Not found")
-            is DataSourceException -> {
-                ExceptionHandler.logger.error(cause.message, cause)
-                call.respond(HttpStatusCode.InternalServerError, "Data source problem")
-            }
-            else -> {
-                ExceptionHandler.logger.error(cause.message, cause)
-                call.respond(HttpStatusCode.InternalServerError, "Internal server error")
-            }
-        }
-        throw cause
+    exception<DuplicateException> {
+        call.respond(HttpStatusCode.BadRequest, it.message?: "Duplicate")
+    }
+    exception<InvalidParameterException> {
+        call.respond(HttpStatusCode.BadRequest, it.message?: "Invalid parameter")
+    }
+    exception<AuthException> {
+        call.respond(HttpStatusCode.Unauthorized, it.message?: "Unauthorized")
+    }
+    exception<NotFoundException> {
+        call.respond(HttpStatusCode.NotFound, it.message?:"Not found")
+    }
+    exception<DataSourceException> {
+        ExceptionHandler.logger.error(it.message, it)
+        call.respond(HttpStatusCode.InternalServerError, "Data source problem")
+    }
+    exception<Throwable> {
+        ExceptionHandler.logger.error(it.message, it)
+        call.respond(HttpStatusCode.InternalServerError, "Internal server error")
     }
 }
