@@ -5,8 +5,6 @@ spring:
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.H2Dialect
-      show_sql: true
-      format_sql: true
       cache:
         use_query_cache: true
         use_second_level_cache: true
@@ -15,3 +13,6 @@ spring:
       javax:
         cache:
           missing_cache_strategy: create
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true

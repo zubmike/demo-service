@@ -10,16 +10,16 @@
 
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>DEBUG</level>
+      <level>TRACE</level>
     </filter>
     <encoder>
       <pattern>${loggingPattern}</pattern>
     </encoder>
   </appender>
-  
+
   <appender name="request-console" class="ch.qos.logback.core.ConsoleAppender">
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>DEBUG</level>
+      <level>TRACE</level>
     </filter>
     <encoder>
       <pattern>${requestPattern}</pattern>
@@ -27,8 +27,9 @@
   </appender>
 
   <appender name="error-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>ERROR</level>
+      <onMismatch>DENY</onMismatch>
     </filter>
     <file>${loggingHome}/${appName}-error.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -41,8 +42,9 @@
   </appender>
 
   <appender name="warning-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>WARN</level>
+      <onMismatch>DENY</onMismatch>
     </filter>
     <file>${loggingHome}/${appName}-warning.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -55,7 +57,7 @@
   </appender>
 
   <appender name="debug-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>DEBUG</level>
     </filter>
     <file>${loggingHome}/${appName}-debug.log</file>
@@ -67,10 +69,11 @@
       <pattern>${loggingPattern}</pattern>
     </encoder>
   </appender>
-  
+
   <appender name="info-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>INFO</level>
+      <onMismatch>DENY</onMismatch>
     </filter>
     <file>${loggingHome}/${appName}-info.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -83,8 +86,9 @@
   </appender>
 
   <appender name="request-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>INFO</level>
+      <onMismatch>DENY</onMismatch>
     </filter>
     <file>${loggingHome}/${appName}-request.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
