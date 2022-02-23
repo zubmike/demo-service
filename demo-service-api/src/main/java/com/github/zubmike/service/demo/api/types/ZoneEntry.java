@@ -1,10 +1,12 @@
 package com.github.zubmike.service.demo.api.types;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class ZoneEntry implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = -8745015981066708613L;
 
 	private String name;
 	private int maxSize;

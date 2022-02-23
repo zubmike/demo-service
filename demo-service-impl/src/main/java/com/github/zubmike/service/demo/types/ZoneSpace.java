@@ -1,11 +1,17 @@
 package com.github.zubmike.service.demo.types;
 
+import com.github.zubmike.core.types.EntityItem;
+
 import javax.persistence.*;
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "zone_spaces")
-public class ZoneSpace {
+public class ZoneSpace implements EntityItem<Long> {
+
+	@Serial
+	private static final long serialVersionUID = -6769918792569542867L;
 
 	@Id
 	@Column(name = "id")
@@ -21,11 +27,13 @@ public class ZoneSpace {
 	@Column(name = "create_date")
 	private LocalDateTime createDate;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	@Override
+	public void setId(Long id) {
 		this.id = id;
 	}
 

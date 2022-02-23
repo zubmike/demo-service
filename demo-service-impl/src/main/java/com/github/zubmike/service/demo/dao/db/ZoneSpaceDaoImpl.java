@@ -19,7 +19,7 @@ public class ZoneSpaceDaoImpl extends BasicEntityItemDao<Long, ZoneSpace> implem
 	@Override
 	public List<ZoneSpace> getAllByZone(int zoneId) {
 		return runAndReturn(session -> session
-				.createQuery("from " + clazz.getSimpleName() + " where zoneId = :zoneId", ZoneSpace.class)
+				.createQuery("from ZoneSpace where zoneId = :zoneId", ZoneSpace.class)
 				.setParameter("zoneId", zoneId)
 				.list());
 	}
@@ -27,7 +27,7 @@ public class ZoneSpaceDaoImpl extends BasicEntityItemDao<Long, ZoneSpace> implem
 	@Override
 	public Optional<ZoneSpace> getByStarship(long starshipId) {
 		return runAndReturn(session -> session
-				.createQuery("from " + clazz.getSimpleName() + " where starshipId = :starshipId", ZoneSpace.class)
+				.createQuery("from ZoneSpace where starshipId = :starshipId", ZoneSpace.class)
 				.setParameter("starshipId", starshipId)
 				.uniqueResultOptional());
 	}
@@ -35,7 +35,7 @@ public class ZoneSpaceDaoImpl extends BasicEntityItemDao<Long, ZoneSpace> implem
 	@Override
 	public Optional<ZoneSpace> getUsedSpace(int zoneId, long starshipId) {
 		return runAndReturn(session -> session
-				.createQuery("from " + clazz.getSimpleName() + " where zoneId = :zoneId and starshipId = :starshipId", ZoneSpace.class)
+				.createQuery("from ZoneSpace where zoneId = :zoneId and starshipId = :starshipId", ZoneSpace.class)
 				.setParameter("zoneId", zoneId)
 				.setParameter("starshipId", starshipId)
 				.uniqueResultOptional());

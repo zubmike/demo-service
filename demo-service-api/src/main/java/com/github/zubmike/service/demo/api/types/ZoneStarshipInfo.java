@@ -1,6 +1,11 @@
 package com.github.zubmike.service.demo.api.types;
 
+import java.io.Serial;
+
 public class ZoneStarshipInfo extends StarshipEntry {
+
+	@Serial
+	private static final long serialVersionUID = -8145324767333957156L;
 
 	private long id;
 	private String parkDate;

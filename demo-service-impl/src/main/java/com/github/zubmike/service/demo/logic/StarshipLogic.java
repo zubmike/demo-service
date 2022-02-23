@@ -1,13 +1,16 @@
 package com.github.zubmike.service.demo.logic;
 
 import com.github.zubmike.core.utils.DateTimeUtils;
+import com.github.zubmike.core.utils.DuplicateException;
 import com.github.zubmike.core.utils.InvalidParameterException;
 import com.github.zubmike.core.utils.NotFoundException;
+import com.github.zubmike.service.demo.ServiceResource;
 import com.github.zubmike.service.demo.api.types.StarshipEntry;
 import com.github.zubmike.service.demo.api.types.StarshipInfo;
 import com.github.zubmike.service.demo.dao.PlanetarySystemDao;
 import com.github.zubmike.service.demo.dao.StarshipDao;
 import com.github.zubmike.service.demo.types.PlanetarySystem;
+import com.github.zubmike.service.demo.types.ServiceUserContext;
 import com.github.zubmike.service.demo.types.Starship;
 
 import javax.inject.Inject;
@@ -18,21 +21,24 @@ public class StarshipLogic {
 
 	private static final Pattern NUMBER_PATTERN = Pattern.compile("^([A-Z]{3})-([0-9]{6})$");
 
+	private final ServiceUserContext serviceUserContext;
+
 	private final StarshipDao starshipDao;
 	private final PlanetarySystemDao planetarySystemDao;
 
 	@Inject
-	public StarshipLogic(StarshipDao starshipDao, PlanetarySystemDao planetarySystemDao) {
+	public StarshipLogic(ServiceUserContext serviceUserContext, StarshipDao starshipDao, PlanetarySystemDao planetarySystemDao) {
+		this.serviceUserContext = serviceUserContext;
 		this.starshipDao = starshipDao;
 		this.planetarySystemDao = planetarySystemDao;
 	}
 
 	public StarshipInfo addStarship(StarshipEntry starshipEntry) {
-		PlanetarySystem planetarySystem = parsePlanetarySystem(starshipEntry);
+		var planetarySystem = parsePlanetarySystem(starshipEntry);
 		starshipDao.getByNumber(starshipEntry.getNumber()).ifPresent(it -> {
-			throw new InvalidParameterException("Duplicate starship");
+			throw new DuplicateException(ServiceResource.getString(serviceUserContext, "res.string.duplicate"));
 		});
-		Starship starship = new Starship();
+		var starship = new Starship();
 		starship.setNumber(starshipEntry.getNumber());
 		starship.setPlanetarySystemId(planetarySystem.getId());
 		starship.setCreateDate(LocalDateTime.now());
@@ -44,10 +50,10 @@ public class StarshipLogic {
 	private PlanetarySystem parsePlanetarySystem(StarshipEntry starshipEntry) {
 		var matcher =  NUMBER_PATTERN.matcher(starshipEntry.getNumber());
 		if (!matcher.find() || matcher.groupCount() < 2) {
-			throw new InvalidParameterException("Invalid number format");
+			throw new InvalidParameterException(ServiceResource.getString(serviceUserContext, "res.string.invalidNumberFormat"));
 		}
 		return planetarySystemDao.getByCode(matcher.group(1))
-				.orElseThrow(() -> new InvalidParameterException("Unknown planetary system"));
+				.orElseThrow(() -> new InvalidParameterException(ServiceResource.getString(serviceUserContext, "res.string.unknownPlanetarySystem")));
 	}
 
 	private StarshipInfo createStarshipInfo(Starship starship) {

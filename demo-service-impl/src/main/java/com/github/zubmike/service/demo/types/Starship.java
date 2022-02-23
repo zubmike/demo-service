@@ -1,15 +1,20 @@
 package com.github.zubmike.service.demo.types;
 
+import com.github.zubmike.core.types.EntityItem;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "starships")
 @Cache(region = "zone", usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Starship {
+public class Starship implements EntityItem<Long> {
+
+	@Serial
+	private static final long serialVersionUID = -6222734621829538476L;
 
 	@Id
 	@Column(name = "id")
@@ -28,11 +33,13 @@ public class Starship {
 	@Column(name = "time_count")
 	private int timeCount;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	@Override
+	public void setId(Long id) {
 		this.id = id;
 	}
 

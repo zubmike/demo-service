@@ -1,6 +1,6 @@
 package com.github.zubmike.service.demo.dao;
 
-import com.github.zubmike.core.dao.EntityItemDao;
+import com.github.zubmike.service.dao.EntityItemDao;
 import com.github.zubmike.service.demo.types.ZoneSpace;
 
 import java.util.List;

@@ -17,8 +17,7 @@ public class PlanetarySystemDaoImpl extends BasicDictItemDao<PlanetarySystem> im
 
 	@Override
 	public Optional<PlanetarySystem> getByCode(String code) {
-		return runAndReturn(session -> session.createQuery("from " + clazz.getSimpleName() + " where code = :code",
-				PlanetarySystem.class)
+		return runAndReturn(session -> session.createQuery("from PlanetarySystem where code = :code", PlanetarySystem.class)
 				.setParameter("code", code)
 				.uniqueResultOptional());
 	}

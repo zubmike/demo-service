@@ -1,10 +1,12 @@
 package com.github.zubmike.service.demo.api.types;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class StarshipEntry implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = -7275731517621850250L;
 
 	private String number;
 

@@ -17,8 +17,7 @@ public class StarshipDaoImpl extends BasicEntityItemDao<Long, Starship> implemen
 
 	@Override
 	public Optional<Starship> getByNumber(String number) {
-		return runAndReturn(session -> session.createQuery("from " + clazz.getSimpleName() + " where number = :number",
-				Starship.class)
+		return runAndReturn(session -> session.createQuery("from Starship where number = :number", Starship.class)
 				.setParameter("number", number)
 				.uniqueResultOptional());
 	}

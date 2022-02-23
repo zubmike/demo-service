@@ -1,22 +1,25 @@
 package com.github.zubmike.service.demo.api;
 
-import org.glassfish.jersey.server.ResourceConfig;
 import com.github.zubmike.core.types.BasicDictItem;
 import com.github.zubmike.service.demo.logic.DictionaryLogic;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/dictionaries")
-public class DictionaryResource extends BasicResource {
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class DictionaryResource {
 
-	private DictionaryLogic dictionaryLogic;
+	private final DictionaryLogic dictionaryLogic;
 
 	@Inject
-	public DictionaryResource(ResourceConfig resourceConfig, DictionaryLogic dictionaryLogic) {
-		super(resourceConfig);
+	public DictionaryResource(DictionaryLogic dictionaryLogic) {
 		this.dictionaryLogic = dictionaryLogic;
 	}
 

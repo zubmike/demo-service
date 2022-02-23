@@ -7,14 +7,57 @@ Simple REST API service for managing parking spaces on space station :)
 
 **demo-service-impl** - Basic service implementation by Jetty/Jersey/Guice/Hibernate
 
-**demo-service-spring-impl** - Service implementation by Spring/Hibernate
+**demo-service-spring-impl** - Service implementation by Spring/Hibernate (not all API implemented)
 
-**demo-service-kotlin-impl** - Service implementation by Kotlin with Ktor/Koin/Hibernate
+**demo-service-kotlin-impl** - Service implementation by Kotlin with Ktor/Koin/Hibernate (not all API implemented)
 
 Parking divided into named zones which have a limited number of parking spaces. Spaceships can arrive from different planetary systems, but parking is available for friendly planetary systems. Each spaceship must have a unique number containing the planetary system code. It is also necessary to determine how many times the ship stopped at the station.
 
 
 ## API
+
+<details>
+
+Service use HTTP-Headers for authorizing users and localizing error messages
+
+Authorizing user by access JWT:
+```
+Authorization: Bearer <access_token>
+```
+Authorizing user by HTTP-Basic:
+```
+Authorization: Basic <credentials>
+```
+Select language for response messages (en/ru):
+```
+Accept-Language: <lang>
+```
+
+</details>
+
+#### Auth resources:
+
+<details>
+  <summary>Authenticate user</summary>
+
+  `POST` http://localhost:8080/auth
+  
+  Request:
+  ```json
+  {
+      "login": "admin",
+      "password": "demo"
+  }
+  ```
+  Response:
+  ```json
+  {
+	  "id": 1,
+	  "name": "Park administrator",
+	 "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDU2Mzc1ODIzODUsInN1YiI6ImV5SjFjMlZ5U1dRaU9qRjkifQ.RdgcGuLiFkEPaVXXLNkAcKrD7RN_CELpXM1igNTfhpQ"
+  }
+  ```
+</details>
 
 #### Parking zone resources:
 
@@ -22,11 +65,20 @@ Parking divided into named zones which have a limited number of parking spaces. 
   <summary>Create new zone</summary>
 
   `POST` http://localhost:8080/zones
-
+  
+  Request:
   ```json
   {
-      "name": "Zone A",
-      "maxSize": 16
+      "name": "Zone B",
+      "maxSize": 12
+  }
+  ```
+  Response:
+  ```json
+  {
+	"id": 2,
+    "name": "Zone C",
+    "maxSize": 12
   }
   ```
 </details>
@@ -36,13 +88,19 @@ Parking divided into named zones which have a limited number of parking spaces. 
 
   `GET` http://localhost:8080/zones
   
+  Response:  
   ```json
   [
       {
           "id": 1,  
           "name": "Zone A",
           "maxSize": 16
-      }
+      },
+	  {
+		  "id": 2,
+          "name": "Zone B",
+		  "maxSize": 12
+	  }
   ]
   ```
 </details>
@@ -69,6 +127,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
 
   `GET` http://localhost:8080/zones/{id}/starships
   
+  Response:  
   ```json
   [
       {
@@ -86,9 +145,22 @@ Parking divided into named zones which have a limited number of parking spaces. 
   <summary>Create new starship</summary> 
 
   `POST` http://localhost:8080/starships
+  
+  Request:
   ```json
   {
       "number": "SOL-123456"
+  }
+  ```
+  Response:
+  ```json
+  {
+      "id": 1,    
+      "number": "SOL-123456",
+      "planetarySystemId": 1,
+      "planetarySystemName": "Solar System",
+      "createDate": "2019-08-09T12:34:56",
+      "timeCount": 0
   }
   ```
 </details>
@@ -99,6 +171,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
 
   `GET` http://localhost:8080/starships/{id}
   
+  Response:  
   ```json
   {
       "id": 1,    
@@ -118,6 +191,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
 
   `GET` http://localhost:8080/starships/number/{number}
   
+  Response: 
   ```json
   {
       "id": 1,    
@@ -138,7 +212,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
   <summary>Get all planetary systems</summary>
   
    `GET` http://localhost:8080/dictionaries/planetary-systems
-   
+   Response:   
    ```json
    [
        {
@@ -168,7 +242,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
    - https://github.com/zubmike/common-service
    - https://github.com/zubmike/demo-service-api
   
-  For each libraries execute command into directory:
+  For each library execute command into directory:
   ```
   mvn clean install
   ```
@@ -195,7 +269,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
   - https://github.com/zubmike/common-core
   - https://github.com/zubmike/demo-service-api
 
-  For each libraries execute command into directory:
+  For each library execute command into directory:
   ```
   mvn clean install
   ```
@@ -223,7 +297,7 @@ Parking divided into named zones which have a limited number of parking spaces. 
    - https://github.com/zubmike/common-service
    - https://github.com/zubmike/demo-service-api
   
-  For each libraries execute command into directory:
+  For each library execute command into directory:
   ```
   mvn clean install
   ```

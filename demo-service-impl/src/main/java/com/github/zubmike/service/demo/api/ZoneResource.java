@@ -1,23 +1,26 @@
 package com.github.zubmike.service.demo.api;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import com.github.zubmike.service.demo.api.types.ZoneStarshipInfo;
 import com.github.zubmike.service.demo.api.types.ZoneEntry;
 import com.github.zubmike.service.demo.api.types.ZoneInfo;
+import com.github.zubmike.service.demo.api.types.ZoneStarshipInfo;
 import com.github.zubmike.service.demo.logic.ZoneLogic;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Secure
 @Path("/zones")
-public class ZoneResource extends BasicResource {
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ZoneResource {
 
 	private final ZoneLogic zoneLogic;
 
 	@Inject
-	public ZoneResource(ResourceConfig resourceConfig, ZoneLogic zoneLogic) {
-		super(resourceConfig);
+	public ZoneResource(ZoneLogic zoneLogic) {
 		this.zoneLogic = zoneLogic;
 	}
 
@@ -39,16 +42,18 @@ public class ZoneResource extends BasicResource {
 
 	@POST
 	@Path("/{id}/starships/{starship-id}")
-	public void addToZone(@PathParam("id") int id,
-	                      @PathParam("starship-id") long starshipId) {
+	public Response addToZone(@PathParam("id") int id,
+	                          @PathParam("starship-id") long starshipId) {
 		zoneLogic.addToZone(id, starshipId);
+		return Response.ok().build();
 	}
 
 	@DELETE
 	@Path("/{id}/starships/{starship-id}")
-	public void deleteFromZone(@PathParam("id") int id,
-	                           @PathParam("starship-id") long starshipId) {
+	public Response deleteFromZone(@PathParam("id") int id,
+	                               @PathParam("starship-id") long starshipId) {
 		zoneLogic.deleteFromZone(id, starshipId);
+		return Response.ok().build();
 	}
 
 	@GET

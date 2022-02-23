@@ -1,8 +1,11 @@
 package com.github.zubmike.service.demo.api.types;
 
+import java.io.Serial;
+
 public class StarshipInfo extends StarshipEntry {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = -5730806093139041357L;
 
 	private long id;
 	private int planetarySystemId;

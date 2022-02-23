@@ -8,6 +8,7 @@ import com.github.zubmike.service.types.BasicEntityDictItem;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serial;
 
 @Entity
 @Table(name = "planetary_systems")
@@ -15,7 +16,8 @@ import javax.persistence.Table;
 @Cache(region = "planetarySystem", usage = CacheConcurrencyStrategy.READ_ONLY)
 public class PlanetarySystem extends BasicEntityDictItem {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 7334333138985271731L;
 
 	@Column(name = "code")
 	private String code;

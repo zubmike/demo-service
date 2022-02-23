@@ -2,9 +2,12 @@ package com.github.zubmike.service.demo.api.types;
 
 import com.github.zubmike.core.types.DictItem;
 
+import java.io.Serial;
+
 public class ZoneInfo extends ZoneEntry implements DictItem<Integer> {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = -5687033809529363540L;
 
 	private int id;
 

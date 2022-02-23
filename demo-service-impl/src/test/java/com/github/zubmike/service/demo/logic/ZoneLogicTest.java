@@ -1,12 +1,10 @@
 package com.github.zubmike.service.demo.logic;
 
+import com.github.zubmike.service.demo.types.ServiceUserContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import com.github.zubmike.core.utils.InvalidParameterException;
 import com.github.zubmike.service.demo.api.types.ZoneEntry;
 import com.github.zubmike.service.demo.dao.StarshipDao;
@@ -19,6 +17,7 @@ import com.github.zubmike.service.managers.TransactionManager;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ZoneLogicTest {
@@ -29,6 +28,8 @@ public class ZoneLogicTest {
 	private static final long TEST_STARSHIP_ID = 1L;
 	private static final int DEFAULT_STARSHIP_TIME_COUNT = 1;
 
+	@Spy
+	private ServiceUserContext serviceUserContext = new ServiceUserContext(1, Locale.getDefault());
 	@Mock
 	private ZoneDao zoneDao;
 	@Mock

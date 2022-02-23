@@ -1,17 +1,15 @@
 package com.github.zubmike.service.demo.conf;
 
+import com.github.zubmike.service.demo.types.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import com.github.zubmike.service.conf.DataBaseProperties;
-import com.github.zubmike.service.demo.types.PlanetarySystem;
-import com.github.zubmike.service.demo.types.Starship;
-import com.github.zubmike.service.demo.types.Zone;
-import com.github.zubmike.service.demo.types.ZoneSpace;
 
 public class HibernateFactory {
 
 	private static final Class<?>[] ENTITIES = new Class[] {
+			User.class,
 			Zone.class,
 			ZoneSpace.class,
 			Starship.class,

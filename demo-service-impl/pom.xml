@@ -6,27 +6,28 @@
 
     <groupId>com.github.zubmike</groupId>
     <artifactId>demo-service-impl</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
+        <java.version>17</java.version>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <maven-compiler-plugin.java-version>11</maven-compiler-plugin.java-version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-shade-plugin.version>3.2.0</maven-shade-plugin.version>
-        <common-service.version>1.0</common-service.version>
-        <demo-service-api.version>1.0</demo-service-api.version>
-        <guice.version>4.2.0</guice.version>
-        <jetty.version>9.4.17.v20190418</jetty.version>
-        <jersey.version>2.29</jersey.version>
-        <jackson.version>2.9.9</jackson.version>
-        <hibernate.version>5.4.4.Final</hibernate.version>
+        <common-service.version>1.1</common-service.version>
+        <demo-service-api.version>1.1</demo-service-api.version>
+        <guice.version>5.0.1</guice.version>
+        <guice-bridge.version>2.6.1</guice-bridge.version>
+        <jetty.version>9.4.43.v20210629</jetty.version>
+        <jersey.version>2.35</jersey.version>
+        <jackson.version>2.13.1</jackson.version>
+        <hibernate.version>5.6.5.Final</hibernate.version>
         <ehcache.version>3.5.2</ehcache.version>
         <h2.version>1.4.199</h2.version>
-        <junit.version>4.12</junit.version>
-        <mockito-core.version>3.0.0</mockito-core.version>
+        <junit.version>4.13.2</junit.version>
+        <mockito-core.version>4.3.1</mockito-core.version>
     </properties>
 
     <dependencies>
@@ -48,11 +49,6 @@
         <!-- Jetty -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>${jetty.version}</version>
         </dependency>
@@ -72,12 +68,6 @@
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.javassist</groupId>
-                    <artifactId>javassist</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -116,6 +106,12 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Guice -->
@@ -123,6 +119,22 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>guice-bridge</artifactId>
+            <version>${guice-bridge.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.inject</groupId>
+                    <artifactId>guice</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- H2 -->
@@ -164,7 +176,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>${maven-compiler-plugin.java-version}</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>

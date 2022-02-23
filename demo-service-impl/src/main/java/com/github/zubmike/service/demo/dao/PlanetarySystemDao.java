@@ -1,6 +1,6 @@
 package com.github.zubmike.service.demo.dao;
 
-import com.github.zubmike.core.dao.DictItemDao;
+import com.github.zubmike.service.dao.DictItemDao;
 import com.github.zubmike.service.demo.types.PlanetarySystem;
 
 import java.util.Optional;

@@ -1,141 +1,96 @@
 package com.github.zubmike.service.demo.conf;
 
+import com.github.zubmike.service.demo.utils.HttpServletRequestContentWrapper;
 import com.google.common.base.Charsets;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.glassfish.jersey.message.internal.ReaderWriter;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.Context;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 
-public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
+public class LoggingFilter implements Filter {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class.getPackage().getName());
-	private static final Logger REQUEST_LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoggingFilter.class);
 
-	private static final String REQUEST_ID_HEADER = "X-Request-ID";
-	@Context
-	private HttpServletRequest httpServletRequest;
+	@Override
+	public void init(FilterConfig filterConfig) {
 
-	private final ConcurrentMap<String, byte[]> wrappedRequestBodyMap = Maps.newConcurrentMap();
-	private final ConcurrentMap<String, Long> requestStartTimeMap = Maps.newConcurrentMap();
-
-	@Inject
-	public LoggingFilter(ResourceConfig resourceConfig) {
-		resourceConfig.register(this);
 	}
 
 	@Override
-	public void filter(ContainerRequestContext requestContext) {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException, IOException {
 		long startTimeMillis = System.currentTimeMillis();
-		String requestId = UUID.randomUUID().toString();
-		requestContext.getHeaders().putSingle(REQUEST_ID_HEADER, requestId);
-		try {
-			requestStartTimeMap.put(requestId, startTimeMillis);
-			if (isWrappedRequest(requestContext)) {
-				wrapRequestBody(requestId, requestContext);
-			}
-		} catch (Exception e) {
-			wrappedRequestBodyMap.remove(requestId);
-			requestStartTimeMap.remove(requestId);
-		}
-	}
-
-	private boolean isWrappedRequest(ContainerRequestContext requestContext) {
-		return requestContext.getLength() > 0;
-	}
-
-	private void wrapRequestBody(String requestId, ContainerRequestContext requestContext) {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		InputStream in = requestContext.getEntityStream();
-		try {
-			ReaderWriter.writeTo(in, out);
-			byte[] bytes = out.toByteArray();
-			if (bytes.length > 0) {
-				wrappedRequestBodyMap.put(requestId, bytes);
-			}
-			requestContext.setEntityStream(new ByteArrayInputStream(bytes) );
-		} catch (Exception e) {
-			LOGGER.error("can't get request body", e);
-		}
+		var request = new HttpServletRequestContentWrapper((HttpServletRequest) servletRequest);
+		var response = (HttpServletResponse) servletResponse;
+		chain.doFilter(request, response);
+		logRequest(request, response, startTimeMillis);
 	}
 
 	@Override
-	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-		String requestId = requestContext.getHeaderString(REQUEST_ID_HEADER);
-		try {
-			REQUEST_LOGGER.info("{} -> {}\n <- {}",
-					httpServletRequest.getRemoteAddr(),
-					createRequestInfo(requestContext),
-					createResponseInfo(requestContext,  responseContext));
-		} finally {
-			if (requestId != null) {
-				wrappedRequestBodyMap.remove(requestId);
-				requestStartTimeMap.remove(requestId);
-			}
-		}
+	public void destroy() {
+
 	}
 
-	private String createRequestInfo(ContainerRequestContext requestContext) {
-		return requestContext.getMethod() + " " + requestContext.getUriInfo().getRequestUri() +
-				"\n\t" + getHeaderInfo(requestContext) +
-				getRequestBody(requestContext);
+	private static void logRequest(String address, String requestInfo, String responseInfo) {
+		LOGGER.info("{} -> {}\n <- {}", address, requestInfo, responseInfo);
 	}
 
-	private static String getHeaderInfo(ContainerRequestContext requestContext) {
-		List<String> headers = Lists.newArrayList();
-		for (String headerKey : requestContext.getHeaders().keySet()) {
-			for (String headerValue : requestContext.getHeaders().get(headerKey)) {
-				headers.add(headerKey + ": " + headerValue);
-			}
+	private void logRequest(HttpServletRequestContentWrapper request, HttpServletResponse response, long startTimeMillis) {
+		logRequest(request.getRemoteAddr(),
+				createRequestInfo(request),
+				createResponseInfo(startTimeMillis, response));
+	}
+
+	public static void logRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+		logRequest(servletRequest.getRemoteAddr(),
+				createRequestInfo(servletRequest) + "\n",
+				String.valueOf(servletResponse.getStatus()));
+	}
+
+	private String createRequestInfo(HttpServletRequestContentWrapper request) {
+		var queryString = request.getQueryString();
+		return request.getMethod() + " " + request.getRequestURL() + (queryString != null ? "?" + queryString : "" ) +
+				"\n\t" + getHeaderInfo(request) +
+				getRequestBody(request);
+	}
+
+	private static String createRequestInfo(HttpServletRequest servletRequest) {
+		var queryString = servletRequest.getQueryString();
+		return servletRequest.getMethod() + " " + servletRequest.getRequestURL() + (queryString != null ? "?" + queryString : "" ) +
+				"\n\t" + getHeaderInfo(servletRequest);
+	}
+
+	private static String getHeaderInfo(HttpServletRequest servletRequest) {
+		var headers = new ArrayList<String>();
+		var headerNames = servletRequest.getHeaderNames();
+		if (headerNames != null) {
+			headerNames.asIterator().forEachRemaining(headerName -> {
+				headers.add(headerName + ": " + servletRequest.getHeader(headerName));
+			});
 		}
 		return String.join("\n\t", headers);
 	}
 
-	private String getRequestBody(ContainerRequestContext requestContext) {
-		StringBuilder builder = new StringBuilder();
-		if (isWrappedRequest(requestContext)) {
-			byte[] bytes = getRequestBytes(requestContext);
+	private String getRequestBody(HttpServletRequestContentWrapper request) {
+		var stringBuilder = new StringBuilder("\n");
+		if (request.isWrapped()) {
+			byte[] bytes = request.getContentBytes();
 			if (bytes != null) {
-				builder.append("\n\n\t").append(new String(bytes, Charsets.UTF_8));
+				var body = new String(bytes, Charsets.UTF_8)
+						.replaceAll("\"password\"\\s*:\\s*(\"(?:\\\\\"|[^\"])*?\")", "\"password\":***");
+				stringBuilder.append("\t").append(body);
 			}
 		}
-		return builder.toString();
+		return stringBuilder.toString();
 	}
 
-	private byte[] getRequestBytes(ContainerRequestContext requestContext) {
-		String requestId = requestContext.getHeaderString(REQUEST_ID_HEADER);
-		return Strings.isNullOrEmpty(requestId) ? new byte[0] : wrappedRequestBodyMap.get(requestId);
+	private String createResponseInfo(long requestStartMillis, HttpServletResponse responseContext) {
+		var stateCode = String.valueOf(responseContext.getStatus());
+		long requestTime = System.currentTimeMillis() - requestStartMillis;
+		return stateCode + " (" + requestTime + "ms)";
 	}
 
-	private String createResponseInfo(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-		Long startRequestTime = getStartRequestTime(requestContext);
-		String stateCode = String.valueOf(responseContext.getStatus());
-		if (startRequestTime == null) {
-			return stateCode;
-		} else {
-			long requestTime = System.currentTimeMillis() - startRequestTime;
-			return stateCode + " (" + requestTime + "ms)";
-		}
-	}
-
-	private Long getStartRequestTime(ContainerRequestContext requestContext) {
-		String requestId = requestContext.getHeaderString(REQUEST_ID_HEADER);
-		return Strings.isNullOrEmpty(requestId) ? null : requestStartTimeMap.get(requestId);
-	}
 }
