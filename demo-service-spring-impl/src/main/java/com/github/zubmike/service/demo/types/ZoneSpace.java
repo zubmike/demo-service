@@ -1,11 +1,16 @@
 package com.github.zubmike.service.demo.types;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "zone_spaces")
-public class ZoneSpace {
+public class ZoneSpace implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = -6769918792569542867L;
 
 	@Id
 	@Column(name = "id")

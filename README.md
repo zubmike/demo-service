@@ -7,7 +7,7 @@ Simple REST API service for managing parking spaces on space station :)
 
 **demo-service-impl** - Basic service implementation by Jetty/Jersey/Guice/Hibernate
 
-**demo-service-spring-impl** - Service implementation by Spring/Hibernate (not all API implemented)
+**demo-service-spring-impl** - Service implementation by Spring/Hibernate
 
 **demo-service-kotlin-impl** - Service implementation by Kotlin with Ktor/Koin/Hibernate (not all API implemented)
 

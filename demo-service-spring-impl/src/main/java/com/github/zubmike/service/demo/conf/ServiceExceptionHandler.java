@@ -1,5 +1,8 @@
 package com.github.zubmike.service.demo.conf;
 
+import com.github.zubmike.core.utils.NotFoundException;
+import com.github.zubmike.service.demo.ServiceResource;
+import com.github.zubmike.service.demo.utils.AuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -13,19 +16,22 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import com.github.zubmike.core.utils.NotFoundException;
 
-import javax.security.auth.message.AuthException;
+import javax.servlet.http.HttpServletRequest;
+
 
 @ControllerAdvice
 public class ServiceExceptionHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceExceptionHandler.class);
 
+	private static final String RESPONSE_CONTENT_TYPE = MediaType.TEXT_PLAIN + ";charset=utf-8";
+
 	@ExceptionHandler(Throwable.class)
 	@ResponseBody
-	public ResponseEntity handle(Exception exception) {
-		String message = exception.getMessage();
+	public ResponseEntity<?> handle(Exception exception, HttpServletRequest request) {
+		var message = exception.getMessage();
+		var locale = request.getLocale();
 		if (exception instanceof AuthException) {
 			return createResponse(HttpStatus.UNAUTHORIZED).body(message);
 		} else if (exception instanceof IllegalArgumentException) {
@@ -34,18 +40,18 @@ public class ServiceExceptionHandler {
 				|| exception instanceof MethodArgumentTypeMismatchException
 				|| exception instanceof MethodArgumentNotValidException) {
 			return createResponse(HttpStatus.NOT_FOUND).body(
-					exception.getMessage() == null ? "Not found" : exception.getMessage());
+					exception.getMessage() == null ? ServiceResource.getString(locale, "res.string.notFound") : exception.getMessage());
 		} else if (exception instanceof HttpRequestMethodNotSupportedException) {
 			return createResponse(HttpStatus.METHOD_NOT_ALLOWED).body(message);
 		} else if (exception instanceof HttpMediaTypeNotSupportedException) {
-			return createResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Unsupported media type");
+			return createResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(ServiceResource.getString(locale, "res.string.unsupportedDataType"));
 		} else {
 			LOGGER.error(message, exception);
-			return createResponse(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal service error");
+			return createResponse(HttpStatus.INTERNAL_SERVER_ERROR).body(ServiceResource.getString(locale, "res.string.internalServerError"));
 		}
 	}
 
 	private ResponseEntity.BodyBuilder createResponse(HttpStatus status) {
-		return ResponseEntity.status(status).header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+		return ResponseEntity.status(status).header(HttpHeaders.CONTENT_TYPE, RESPONSE_CONTENT_TYPE);
 	}
 }

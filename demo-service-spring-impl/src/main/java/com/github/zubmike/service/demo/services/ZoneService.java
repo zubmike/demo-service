@@ -1,11 +1,9 @@
 package com.github.zubmike.service.demo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.github.zubmike.core.utils.DateTimeUtils;
 import com.github.zubmike.core.utils.InvalidParameterException;
 import com.github.zubmike.core.utils.NotFoundException;
+import com.github.zubmike.service.demo.ServiceResource;
 import com.github.zubmike.service.demo.api.types.ZoneEntry;
 import com.github.zubmike.service.demo.api.types.ZoneInfo;
 import com.github.zubmike.service.demo.api.types.ZoneStarshipInfo;
@@ -15,13 +13,18 @@ import com.github.zubmike.service.demo.dao.ZoneSpaceRepository;
 import com.github.zubmike.service.demo.types.Starship;
 import com.github.zubmike.service.demo.types.Zone;
 import com.github.zubmike.service.demo.types.ZoneSpace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ZoneService {
+@RequestScope
+public class ZoneService extends UserContextService {
 
 	private static final int MIN_SIZE = 2;
 
@@ -48,12 +51,12 @@ public class ZoneService {
 		return createZoneInfo(zone);
 	}
 
-	private static void checkZoneEntry(ZoneEntry zoneEntry) {
+	private void checkZoneEntry(ZoneEntry zoneEntry) {
 		if (zoneEntry.getName() == null || zoneEntry.getName().isEmpty()) {
-			throw new InvalidParameterException("Invalid name");
+			throw new InvalidParameterException(ServiceResource.getString(serviceUserContext, "res.string.invalidName"));
 		}
 		if (zoneEntry.getMaxSize() < MIN_SIZE) {
-			throw new InvalidParameterException("Invalid size");
+			throw new InvalidParameterException(ServiceResource.getString(serviceUserContext, "res.string.invalidSize"));
 		}
 	}
 
@@ -90,11 +93,11 @@ public class ZoneService {
 
 	private void checkFreeZoneSpace(Zone zone, Starship starship) {
 		zoneSpaceRepository.findByStarshipId(starship.getId()).ifPresent(item -> {
-			throw new InvalidParameterException("Starship is already parked");
+			throw new InvalidParameterException(ServiceResource.getString("res.string.starshipParked", starship.getNumber()));
 		});
 		int usedSize = zoneSpaceRepository.findAllByZoneId(zone.getId()).size();
 		if (usedSize >= zone.getMaxSize()) {
-			throw new InvalidParameterException("Not found empty space");
+			throw new InvalidParameterException(ServiceResource.getString(serviceUserContext, "res.string.noEmptySpace"));
 		}
 	}
 
@@ -115,7 +118,10 @@ public class ZoneService {
 
 	private ZoneSpace getZoneSpace(Zone zone, Starship starship) {
 		return zoneSpaceRepository.getUsedSpace(zone.getId(), starship.getId())
-				.orElseThrow(() -> new InvalidParameterException("Starship is not parked in the zone"));
+				.orElseThrow(() -> {
+					var message = ServiceResource.getString(serviceUserContext, "res.string.starshipNotParked", starship.getNumber(), zone.getName());
+					return new InvalidParameterException(message);
+				});
 	}
 
 	public List<ZoneStarshipInfo> getZoneStarships(int zoneId) {

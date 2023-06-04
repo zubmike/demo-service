@@ -1,3 +1,10 @@
+create table users (
+  id int(6) auto_increment not null primary key,
+  name varchar2(32),
+  login varchar2(16) not null unique,
+  password varchar2(64) not null
+);
+
 create table zones (
   id int(6) auto_increment not null primary key,
   name varchar2(32),

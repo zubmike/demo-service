@@ -4,12 +4,17 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "starships")
 @Cache(region = "zone", usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Starship {
+public class Starship implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = -6222734621829538476L;
 
 	@Id
 	@Column(name = "id")
