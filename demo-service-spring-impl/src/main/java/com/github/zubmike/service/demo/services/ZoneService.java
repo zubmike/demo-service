@@ -10,6 +10,7 @@ import com.github.zubmike.service.demo.api.types.ZoneStarshipInfo;
 import com.github.zubmike.service.demo.dao.StarshipRepository;
 import com.github.zubmike.service.demo.dao.ZoneRepository;
 import com.github.zubmike.service.demo.dao.ZoneSpaceRepository;
+import com.github.zubmike.service.demo.types.ServiceUserContext;
 import com.github.zubmike.service.demo.types.Starship;
 import com.github.zubmike.service.demo.types.Zone;
 import com.github.zubmike.service.demo.types.ZoneSpace;
@@ -33,7 +34,9 @@ public class ZoneService extends UserContextService {
 	private final StarshipRepository starshipRepository;
 
 	@Autowired
-	public ZoneService(ZoneRepository zoneRepository, ZoneSpaceRepository zoneSpaceRepository, StarshipRepository starshipRepository) {
+	public ZoneService(ServiceUserContext serviceUserContext, ZoneRepository zoneRepository,
+					   ZoneSpaceRepository zoneSpaceRepository, StarshipRepository starshipRepository) {
+		super(serviceUserContext);
 		this.zoneRepository = zoneRepository;
 		this.zoneSpaceRepository = zoneSpaceRepository;
 		this.starshipRepository = starshipRepository;

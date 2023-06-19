@@ -1,19 +1,20 @@
 package com.github.zubmike.service.demo.services;
 
-import com.github.zubmike.core.utils.DuplicateException;
-import com.github.zubmike.service.demo.ServiceResource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.github.zubmike.core.types.DictItem;
 import com.github.zubmike.core.utils.DateTimeUtils;
+import com.github.zubmike.core.utils.DuplicateException;
 import com.github.zubmike.core.utils.InvalidParameterException;
 import com.github.zubmike.core.utils.NotFoundException;
+import com.github.zubmike.service.demo.ServiceResource;
 import com.github.zubmike.service.demo.api.types.StarshipEntry;
 import com.github.zubmike.service.demo.api.types.StarshipInfo;
 import com.github.zubmike.service.demo.dao.PlanetarySystemRepository;
 import com.github.zubmike.service.demo.dao.StarshipRepository;
 import com.github.zubmike.service.demo.types.PlanetarySystem;
+import com.github.zubmike.service.demo.types.ServiceUserContext;
 import com.github.zubmike.service.demo.types.Starship;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,9 @@ public class StarshipService extends UserContextService {
 	private final PlanetarySystemRepository planetarySystemRepository;
 
 	@Autowired
-	public StarshipService(StarshipRepository starshipRepository, PlanetarySystemRepository planetarySystemRepository) {
+	public StarshipService(ServiceUserContext serviceUserContext, StarshipRepository starshipRepository,
+						   PlanetarySystemRepository planetarySystemRepository) {
+		super(serviceUserContext);
 		this.starshipRepository = starshipRepository;
 		this.planetarySystemRepository = planetarySystemRepository;
 	}
