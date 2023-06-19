@@ -29,7 +29,7 @@ public class ServiceExceptionHandler {
 
 	@ExceptionHandler(Throwable.class)
 	@ResponseBody
-	public ResponseEntity<?> handle(Exception exception, HttpServletRequest request) {
+	public ResponseEntity<String> handle(Exception exception, HttpServletRequest request) {
 		var message = exception.getMessage();
 		var locale = request.getLocale();
 		if (exception instanceof AuthException) {
