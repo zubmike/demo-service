@@ -1,12 +1,11 @@
 package com.github.zubmike.service.demo.services;
 
+import com.github.zubmike.core.utils.DuplicateException;
+import com.github.zubmike.service.demo.types.ServiceUserContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import com.github.zubmike.core.utils.DateTimeUtils;
 import com.github.zubmike.core.utils.InvalidParameterException;
 import com.github.zubmike.core.utils.NotFoundException;
@@ -18,11 +17,15 @@ import com.github.zubmike.service.demo.types.PlanetarySystem;
 import com.github.zubmike.service.demo.types.Starship;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 public class StarshipServiceTest {
 
 	private static final PlanetarySystem TEST_PLANET_SYSTEM = new PlanetarySystem(1, "Test system", "TST");
+
+	@Spy
+	private ServiceUserContext serviceUserContext = new ServiceUserContext(1, Locale.getDefault());
 
 	@Mock
 	private StarshipRepository starshipRepository;
@@ -47,7 +50,7 @@ public class StarshipServiceTest {
 		starshipService.addStarship(new StarshipEntry("TST-000001"));
 	}
 
-	@Test(expected = InvalidParameterException.class)
+	@Test(expected = DuplicateException.class)
 	public void addDuplicateStarship() {
 		Mockito.when(starshipRepository.findByNumber(Mockito.eq("TST-000002")))
 				.thenAnswer(invocation -> {
