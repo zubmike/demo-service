@@ -18,7 +18,7 @@
         <demo-service-api.version>1.1</demo-service-api.version>
         <spring-boot.version>2.7.12</spring-boot.version>
         <nimbus-jose-jwt.version>9.19</nimbus-jose-jwt.version>
-        <h2.version>1.4.199</h2.version>
+        <h2.version>2.2.220</h2.version>
     </properties>
 
     <dependencyManagement>
